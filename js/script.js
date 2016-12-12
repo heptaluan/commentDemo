@@ -5,7 +5,7 @@ window.onload = function () {
     var timer;
 
     // 删除节点
-    function removeNode(node) {
+    function removeNode (node) {
         node.parentNode.removeChild(node);
     }
 
@@ -29,7 +29,7 @@ window.onload = function () {
     }
 
     // 格式化时间
-    function getTime() {
+    function getTime () {
         var time = new Date();
         var y = time.getFullYear();
         var m = time.getMonth() + 1;
@@ -40,7 +40,7 @@ window.onload = function () {
         d = d < 10 ? "0" + d : d
         h = h < 10 ? "0" + h : h
         mi = mi < 10 ? "0" + mi : mi
-        return y + "-" + m + "-" + d + " " + h + ":" + mi; 
+        return y + "-" + m + "-" + d + " " + h + ":" + mi;
     }
 
     // 发表评论
@@ -52,19 +52,19 @@ window.onload = function () {
         li.setAttribute('user', 'self');
         li.innerHTML =
             '<img class="myhead" src="images/my.jpg" alt=""/>' +
-                '<div class="comment-content">' +
-                '<p class="comment-text"><span class="user">我：</span>' + textarea.value + '</p>' +
-                '<p class="comment-time">' +
-                getTime() +
-                '<a href="javascript:;" class="comment-praise" total="0" my="0" style="">赞</a>' +
-                '<a href="javascript:;" class="comment-operate">删除</a>' +
-                '</p>' +
-                '</div>'
+            '<div class="comment-content">' +
+            '<p class="comment-text"><span class="user">我：</span>' + textarea.value + '</p>' +
+            '<p class="comment-time">' +
+            getTime() +
+            '<a href="javascript:;" class="comment-praise" total="0" my="0" style="">赞</a>' +
+            '<a href="javascript:;" class="comment-operate">删除</a>' +
+            '</p>' +
+            '</div>'
         list.appendChild(li);
         textarea.value = '';
         textarea.onblur();
     }
-    
+
     // 赞回复
     function praiseReply (el) {
         var myPraise = parseInt(el.getAttribute("my"));
@@ -101,9 +101,9 @@ window.onload = function () {
             removeNode(commentBox);
         }
     }
-    
 
-    // 把事件代理到每条分享div容器
+
+    // 利用 className 实现每条分享 div 容器事件代理，点击对应
     for (var i = 0; i < boxs.length; i++) {
 
         // 点击
@@ -116,14 +116,14 @@ window.onload = function () {
                 case "close":
                     removeNode(el.parentNode);
                     break;
-                
+
                 // 赞分享
                 case "praise":
                     pariseBox(el.parentNode.parentNode.parentNode, el);
                     break;
-                
+
                 // 回复按钮灰色的时候
-                case "btn btn-off": 
+                case "btn btn-off":
                     clearInterval(timer);
                     break;
 
@@ -136,9 +136,9 @@ window.onload = function () {
                 case "comment-praise":
                     praiseReply(el);
                     break;
-                
+
                 // 操作回复
-                 case "comment-operate":
+                case "comment-operate":
                     operateReply(el);
                     break;
             }
@@ -147,12 +147,14 @@ window.onload = function () {
         // 输入框
         var textarea = boxs[i].getElementsByClassName("comment")[0];
 
+        // 输入框获取焦点事件
         textarea.onfocus = function () {
             this.parentNode.className = "text-box text-box-on";
             this.value = this.value == "评论…" ? "" : this.value
             this.onkeyup();
         }
 
+        // 输入框失去焦点事件
         textarea.onblur = function () {
             var _this = this;
             if (_this.value == "") {
@@ -164,6 +166,7 @@ window.onload = function () {
             }
         }
 
+        // 键盘事件
         textarea.onkeyup = function (e) {
             var len = this.value.length;
             var p = this.parentNode;
